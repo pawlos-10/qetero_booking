@@ -88,6 +88,7 @@
 
    1. **Clone or download the project**
 
+<<<<<<< HEAD
    2. **Create a virtual environment (recommended)**
       ```bash
       python -m venv venv
@@ -109,6 +110,8 @@
       ```bash
       pip install -r requirements.txt
       ```
+=======
+>>>>>>> 54bee528230606ac0f9708747697f2aed233d115
 
    5. **Run the application**
       ```bash
