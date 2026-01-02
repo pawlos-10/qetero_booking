@@ -1,246 +1,246 @@
-# Qetero Booking System
+   # Qetero Booking System
 
-A complete, production-ready clinic appointment booking system built with Python Flask.
+   A complete, production-ready clinic appointment booking system built with Python Flask.
 
-## Features
+   ## Features
 
-### Patient Features
-- Patient registration and authentication
-- Browse available doctors and their specialties
-- Book appointments with date and time selection
-- View appointment status (pending, approved, rejected, cancelled)
-- Cancel pending/approved appointments
-- View upcoming appointments on dashboard
+   ### Patient Features
+   - Patient registration and authentication
+   - Browse available doctors and their specialties
+   - Book appointments with date and time selection
+   - View appointment status (pending, approved, rejected, cancelled)
+   - Cancel pending/approved appointments
+   - View upcoming appointments on dashboard
 
-### Admin Features
-- Secure admin authentication
-- Admin dashboard with statistics
-- Manage doctors (add, edit, delete, activate/deactivate)
-- Manage doctor schedules (set working hours per day)
-- View and manage all patients
-- Approve/reject/cancel appointments
-- Role-based access control
+   ### Admin Features
+   - Secure admin authentication
+   - Admin dashboard with statistics
+   - Manage doctors (add, edit, delete, activate/deactivate)
+   - Manage doctor schedules (set working hours per day)
+   - View and manage all patients
+   - Approve/reject/cancel appointments
+   - Role-based access control
 
-## Tech Stack
+   ## Tech Stack
 
-- **Backend**: Python Flask
-- **Database**: SQLite (easily migratable to PostgreSQL)
-- **ORM**: Flask-SQLAlchemy
-- **Authentication**: Flask-Login
-- **Frontend**: HTML5, CSS3, Vanilla JavaScript (ES6)
-- **Templates**: Jinja2
+   - **Backend**: Python Flask
+   - **Database**: SQLite (easily migratable to PostgreSQL)
+   - **ORM**: Flask-SQLAlchemy
+   - **Authentication**: Flask-Login
+   - **Frontend**: HTML5, CSS3, Vanilla JavaScript (ES6)
+   - **Templates**: Jinja2
 
-## Project Structure
+   ## Project Structure
 
-```
-qetero-booking/
-│
-├── app.py                 # Main application file
-├── config.py              # Configuration settings
-├── requirements.txt       # Python dependencies
-│
-├── models/
-│   └── models.py          # Database models (User, Doctor, Appointment, Schedule)
-│
-├── routes/
-│   ├── auth.py           # Authentication routes (login, register, logout)
-│   ├── patient.py        # Patient routes
-│   └── admin.py          # Admin routes
-│
-├── templates/
-│   ├── base.html         # Base template
-│   ├── auth/             # Authentication templates
-│   ├── patient/          # Patient templates
-│   └── admin/            # Admin templates
-│
-├── static/
-│   ├── css/
-│   │   └── main.css      # Main stylesheet with color system
-│   ├── js/
-│   │   └── main.js       # JavaScript functionality
-│   └── assets/           # Static assets
-│
-└── utils/
-    └── decorators.py     # Custom decorators (admin_required, patient_required)
-```
-
-## Color System
-
-The system uses CSS variables for consistent theming:
-
-- **Primary Color**: `#0A1A2F` (dark navy)
-- **Secondary Color**: `#00D4AA` (teal accent)
-- **Light Background**: `#F8FAFC`
-- **Gray Background**: `#F1F5F9`
-- **Dark Text**: `#0F172A`
-- **Alert/Error**: `#FF4D94`
-
-All colors are defined in `:root` CSS variables in `static/css/main.css`.
-
-## Installation
-
-### Prerequisites
-
-- Python 3.7 or higher
-- pip (Python package manager)
-
-### Steps
-
-1. **Clone or download the project**
-
-2. **Create a virtual environment (recommended)**
-   ```bash
-   python -m venv venv
+   ```
+   qetero-booking/
+   │
+   ├── app.py                 # Main application file
+   ├── config.py              # Configuration settings
+   ├── requirements.txt       # Python dependencies
+   │
+   ├── models/
+   │   └── models.py          # Database models (User, Doctor, Appointment, Schedule)
+   │
+   ├── routes/
+   │   ├── auth.py           # Authentication routes (login, register, logout)
+   │   ├── patient.py        # Patient routes
+   │   └── admin.py          # Admin routes
+   │
+   ├── templates/
+   │   ├── base.html         # Base template
+   │   ├── auth/             # Authentication templates
+   │   ├── patient/          # Patient templates
+   │   └── admin/            # Admin templates
+   │
+   ├── static/
+   │   ├── css/
+   │   │   └── main.css      # Main stylesheet with color system
+   │   ├── js/
+   │   │   └── main.js       # JavaScript functionality
+   │   └── assets/           # Static assets
+   │
+   └── utils/
+      └── decorators.py     # Custom decorators (admin_required, patient_required)
    ```
 
-3. **Activate the virtual environment**
-   
-   On Windows:
-   ```bash
-   venv\Scripts\activate
-   ```
-   
-   On macOS/Linux:
-   ```bash
-   source venv/bin/activate
-   ```
+   ## Color System
 
-4. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+   The system uses CSS variables for consistent theming:
 
-5. **Run the application**
-   ```bash
-   python app.py
-   ```
+   - **Primary Color**: `#0A1A2F` (dark navy)
+   - **Secondary Color**: `#00D4AA` (teal accent)
+   - **Light Background**: `#F8FAFC`
+   - **Gray Background**: `#F1F5F9`
+   - **Dark Text**: `#0F172A`
+   - **Alert/Error**: `#FF4D94`
 
-6. **Access the application**
-   - Open your browser and navigate to: `http://127.0.0.1:5000`
-   - The database will be automatically initialized on first run
+   All colors are defined in `:root` CSS variables in `static/css/main.css`.
 
-## Default Credentials
+   ## Installation
 
-### Admin Account
-- **Email**: `admin@qetero.com`
-- **Password**: `admin123`
+   ### Prerequisites
 
-**Important**: Change the admin password after first login for production use!
+   - Python 3.7 or higher
+   - pip (Python package manager)
 
-## Database
+   ### Steps
 
-The system uses SQLite by default (`qetero_booking.db`). The database file is automatically created on first run.
+   1. **Clone or download the project**
 
-### To migrate to PostgreSQL:
+   2. **Create a virtual environment (recommended)**
+      ```bash
+      python -m venv venv
+      ```
 
-1. Update `config.py`:
-   ```python
-   SQLALCHEMY_DATABASE_URI = 'postgresql://user:password@localhost/qetero_booking'
-   ```
+   3. **Activate the virtual environment**
+      
+      On Windows:
+      ```bash
+      venv\Scripts\activate
+      ```
+      
+      On macOS/Linux:
+      ```bash
+      source venv/bin/activate
+      ```
 
-2. Install PostgreSQL adapter:
-   ```bash
-   pip install psycopg2-binary
-   ```
+   4. **Install dependencies**
+      ```bash
+      pip install -r requirements.txt
+      ```
 
-## Usage Guide
+   5. **Run the application**
+      ```bash
+      python app.py
+      ```
 
-### For Patients
+   6. **Access the application**
+      - Open your browser and navigate to: `http://127.0.0.1:5000`
+      - The database will be automatically initialized on first run
 
-1. **Register an account**
-   - Click "Register" on the login page
-   - Fill in your details and create a password
+   ## Default Credentials
 
-2. **Login**
-   - Use your registered email and password
+   ### Admin Account
+   - **Email**: `admin@qetero.com`
+   - **Password**: `admin123`
 
-3. **Browse doctors**
-   - Click "Doctors" to view all available doctors
-   - Click "View Details & Book" to see doctor information and schedule
+   **Important**: Change the admin password after first login for production use!
 
-4. **Book an appointment**
-   - Select a date and time
-   - Add optional notes
-   - Submit the booking request
-   - Wait for admin approval
+   ## Database
 
-5. **View appointments**
-   - Go to "My Appointments" to see all your appointments
-   - Check the status of each appointment
-   - Cancel appointments if needed
+   The system uses SQLite by default (`qetero_booking.db`). The database file is automatically created on first run.
 
-### For Admins
+   ### To migrate to PostgreSQL:
 
-1. **Login**
-   - Use the admin credentials (default: admin@qetero.com / admin123)
+   1. Update `config.py`:
+      ```python
+      SQLALCHEMY_DATABASE_URI = 'postgresql://user:password@localhost/qetero_booking'
+      ```
 
-2. **Dashboard**
-   - View statistics about doctors, patients, and appointments
-   - See recent appointments
+   2. Install PostgreSQL adapter:
+      ```bash
+      pip install psycopg2-binary
+      ```
 
-3. **Manage Doctors**
-   - Add new doctors with their specialties and contact information
-   - Edit doctor details
-   - Set doctor schedules (working hours per day)
-   - Activate/deactivate doctors
+   ## Usage Guide
 
-4. **Manage Appointments**
-   - View all appointments with status filter
-   - Approve or reject pending appointments
-   - Cancel appointments if needed
+   ### For Patients
 
-5. **Manage Patients**
-   - View all registered patients
-   - Delete patient accounts if needed
+   1. **Register an account**
+      - Click "Register" on the login page
+      - Fill in your details and create a password
 
-## Security Features
+   2. **Login**
+      - Use your registered email and password
 
-- Password hashing using Werkzeug
-- Role-based access control
-- Protected routes using decorators
-- Session management with Flask-Login
-- CSRF protection (can be added with Flask-WTF)
+   3. **Browse doctors**
+      - Click "Doctors" to view all available doctors
+      - Click "View Details & Book" to see doctor information and schedule
 
-## Development
+   4. **Book an appointment**
+      - Select a date and time
+      - Add optional notes
+      - Submit the booking request
+      - Wait for admin approval
 
-### Running in Development Mode
+   5. **View appointments**
+      - Go to "My Appointments" to see all your appointments
+      - Check the status of each appointment
+      - Cancel appointments if needed
 
-The app runs in debug mode by default when using `python app.py`. For production:
+   ### For Admins
 
-1. Set `debug=False` in `app.py`
-2. Use a production WSGI server (e.g., Gunicorn, uWSGI)
-3. Set proper `SECRET_KEY` in environment variables
-4. Use a production database (PostgreSQL recommended)
+   1. **Login**
+      - Use the admin credentials (default: admin@qetero.com / admin123)
 
-### Code Structure
+   2. **Dashboard**
+      - View statistics about doctors, patients, and appointments
+      - See recent appointments
 
-- **Models**: Define database schema and relationships
-- **Routes**: Handle HTTP requests and business logic
-- **Templates**: Jinja2 templates for HTML rendering
-- **Static**: CSS, JavaScript, and other static files
-- **Utils**: Reusable utilities and decorators
+   3. **Manage Doctors**
+      - Add new doctors with their specialties and contact information
+      - Edit doctor details
+      - Set doctor schedules (working hours per day)
+      - Activate/deactivate doctors
 
-## API Endpoints
+   4. **Manage Appointments**
+      - View all appointments with status filter
+      - Approve or reject pending appointments
+      - Cancel appointments if needed
 
-### Patient API
-- `GET /patient/api/available-times/<doctor_id>?date=YYYY-MM-DD` - Get available appointment times for a doctor on a specific date
+   5. **Manage Patients**
+      - View all registered patients
+      - Delete patient accounts if needed
 
-## Browser Support
+   ## Security Features
 
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
+   - Password hashing using Werkzeug
+   - Role-based access control
+   - Protected routes using decorators
+   - Session management with Flask-Login
+   - CSRF protection (can be added with Flask-WTF)
 
-## License
+   ## Development
 
-This project is open source and available for educational and commercial use.
+   ### Running in Development Mode
 
-## Support
+   The app runs in debug mode by default when using `python app.py`. For production:
 
-For issues or questions, please refer to the project documentation or contact the development team.
+   1. Set `debug=False` in `app.py`
+   2. Use a production WSGI server (e.g., Gunicorn, uWSGI)
+   3. Set proper `SECRET_KEY` in environment variables
+   4. Use a production database (PostgreSQL recommended)
 
----
+   ### Code Structure
 
-**Qetero Booking** - Making healthcare appointment management simple and efficient.
+   - **Models**: Define database schema and relationships
+   - **Routes**: Handle HTTP requests and business logic
+   - **Templates**: Jinja2 templates for HTML rendering
+   - **Static**: CSS, JavaScript, and other static files
+   - **Utils**: Reusable utilities and decorators
+
+   ## API Endpoints
+
+   ### Patient API
+   - `GET /patient/api/available-times/<doctor_id>?date=YYYY-MM-DD` - Get available appointment times for a doctor on a specific date
+
+   ## Browser Support
+
+   - Chrome (latest)
+   - Firefox (latest)
+   - Safari (latest)
+   - Edge (latest)
+
+   ## License
+
+   This project is open source and available for educational and commercial use.
+
+   ## Support
+
+   For issues or questions, please refer to the project documentation or contact the development team.
+
+   ---
+
+   **Qetero Booking** - Making healthcare appointment management simple and efficient.
 

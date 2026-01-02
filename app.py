@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, render_template
 from flask_login import LoginManager
 from config import SECRET_KEY
 from models.models import User
@@ -27,10 +27,9 @@ app.register_blueprint(auth_bp)
 app.register_blueprint(patient_bp)
 app.register_blueprint(admin_bp)
 
-
 @app.route('/')
 def index():
-    return redirect(url_for('auth.login'))
+    return render_template('profile.html')
 
 
 def init_db():

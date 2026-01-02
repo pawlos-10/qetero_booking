@@ -14,7 +14,7 @@
     <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
-                <a href="{% if current_user.is_authenticated %}{% if current_user.is_admin() %}{{ url_for('admin.dashboard') }}{% else %}{{ url_for('patient.home') }}{% endif %}{% else %}{{ url_for('auth.login') }}{% endif %}">
+                <a href="/">
                     Qetero Booking
                 </a>
             </div>
