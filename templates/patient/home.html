@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Qetero Booking{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Welcome, {{ current_user.first_name }}!</h1>
+    <p>Manage your appointments and find the right doctor for you.</p>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-value">{{ total_doctors }}</div>
+        <div class="stat-label">Available Doctors</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ upcoming_appointments|length }}</div>
+        <div class="stat-label">Upcoming Appointments</div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-header">
+        <h2>Upcoming Appointments</h2>
+        <a href="{{ url_for('patient.doctors') }}" class="btn btn-primary">Book Appointment</a>
+    </div>
+
+    {% if upcoming_appointments %}
+    <div class="appointments-list">
+        {% for appointment in upcoming_appointments %}
+        <div class="appointment-card">
+            <div class="appointment-info">
+                <h3>Dr. {{ appointment.doctor.first_name }} {{ appointment.doctor.last_name }}</h3>
+                <p class="appointment-specialty">{{ appointment.doctor.specialty }}</p>
+                <div class="appointment-details">
+                    <span class="appointment-date">
+                        📅 {{ appointment.appointment_date.strftime('%B %d, %Y') if appointment.appointment_date else '' }}
+                    </span>
+                    <span class="appointment-time">
+                        🕐 {{ appointment.appointment_time.strftime('%I:%M %p') if appointment.appointment_time else '' }}
+                    </span>
+                </div>
+            </div>
+            <div class="appointment-status">
+                <span class="status-badge status-{{ appointment.status }}">{{ appointment.status|title }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <p>You don't have any upcoming appointments.</p>
+        <a href="{{ url_for('patient.doctors') }}" class="btn btn-primary">Book Your First Appointment</a>
+    </div>
+    {% endif %}
+</div>
+
+<div class="section">
+    <div class="section-header">
+        <h2>Quick Actions</h2>
+    </div>
+    <div class="action-grid">
+        <a href="{{ url_for('patient.doctors') }}" class="action-card">
+            <div class="action-icon">👨‍⚕️</div>
+            <h3>Browse Doctors</h3>
+            <p>View all available doctors and their specialties</p>
+        </a>
+        <a href="{{ url_for('patient.appointments') }}" class="action-card">
+            <div class="action-icon">📋</div>
+            <h3>My Appointments</h3>
+            <p>View and manage all your appointments</p>
+        </a>
+    </div>
+</div>
+{% endblock %}
+

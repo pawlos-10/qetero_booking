@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Doctor Schedule - Admin - Qetero Booking{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <a href="{{ url_for('admin.doctors') }}" class="btn btn-secondary">← Back to Doctors</a>
+    <h1>Schedule for Dr. {{ doctor.first_name }} {{ doctor.last_name }}</h1>
+    <a href="{{ url_for('admin.add_schedule', doctor_id=doctor.id) }}" class="btn btn-primary">Add/Update Schedule</a>
+</div>
+
+{% if schedules %}
+<div class="schedules-container">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for schedule in schedules %}
+            <tr>
+                <td><strong>{{ days[schedule.day_of_week] }}</strong></td>
+                <td>{{ schedule.start_time.strftime('%I:%M %p') if schedule.start_time else '' }}</td>
+                <td>{{ schedule.end_time.strftime('%I:%M %p') if schedule.end_time else '' }}</td>
+                <td>
+                    <span class="status-badge {% if schedule.is_available %}status-active{% else %}status-inactive{% endif %}">
+                        {% if schedule.is_available %}Available{% else %}Unavailable{% endif %}
+                    </span>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="empty-state">
+    <p>No schedule set for this doctor yet.</p>
+    <a href="{{ url_for('admin.add_schedule', doctor_id=doctor.id) }}" class="btn btn-primary">Add Schedule</a>
+</div>
+{% endif %}
+{% endblock %}
+

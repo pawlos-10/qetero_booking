@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}Dr. {{ doctor.full_name }} - Qetero Booking{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <a href="{{ url_for('patient.doctors') }}" class="btn btn-secondary">← Back to Doctors</a>
+    <h1>Dr. {{ doctor.first_name }} {{ doctor.last_name }}</h1>
+    <p class="doctor-specialty-large">{{ doctor.specialty }}</p>
+</div>
+
+<div class="doctor-detail-container">
+    <div class="doctor-detail-info">
+        <h2>Doctor Information</h2>
+        {% if doctor.bio %}
+        <p class="doctor-bio-full">{{ doctor.bio }}</p>
+        {% endif %}
+        
+        <div class="doctor-contact-info">
+            {% if doctor.email %}
+            <p><strong>Email:</strong> {{ doctor.email }}</p>
+            {% endif %}
+            {% if doctor.phone %}
+            <p><strong>Phone:</strong> {{ doctor.phone }}</p>
+            {% endif %}
+        </div>
+
+        <div class="doctor-schedule">
+            <h3>Available Days</h3>
+            {% if schedules %}
+            <ul class="schedule-list">
+                {% for schedule in schedules %}
+                <li>
+                    {% set days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] %}
+                    <strong>{{ days[schedule.day_of_week] }}:</strong>
+                    {{ schedule.start_time.strftime('%I:%M %p') if schedule.start_time else '' }} - {{ schedule.end_time.strftime('%I:%M %p') if schedule.end_time else '' }}
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>Schedule not available.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="booking-form-container">
+        <h2>Book Appointment</h2>
+        <form method="POST" action="{{ url_for('patient.book_appointment') }}" class="booking-form" id="bookingForm">
+            <input type="hidden" name="doctor_id" value="{{ doctor.id }}">
+
+            <div class="form-group">
+                <label for="appointment_date">Appointment Date *</label>
+                <input 
+                    type="date" 
+                    id="appointment_date" 
+                    name="appointment_date" 
+                    required
+                    min="{{ today }}"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="appointment_time">Appointment Time *</label>
+                <select id="appointment_time" name="appointment_time" required>
+                    <option value="">Select a date first</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="notes">Notes (Optional)</label>
+                <textarea 
+                    id="notes" 
+                    name="notes" 
+                    rows="4"
+                    placeholder="Any additional information or concerns..."
+                ></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Book Appointment</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const doctorId = {{ doctor.id }};
+    const appointmentDateInput = document.getElementById('appointment_date');
+    const appointmentTimeSelect = document.getElementById('appointment_time');
+    
+    appointmentDateInput.addEventListener('change', function() {
+        const selectedDate = this.value;
+        if (!selectedDate) {
+            appointmentTimeSelect.innerHTML = '<option value="">Select a date first</option>';
+            return;
+        }
+        
+        // Fetch available times
+        fetch(`/patient/api/available-times/${doctorId}?date=${selectedDate}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    appointmentTimeSelect.innerHTML = '<option value="">Error loading times</option>';
+                    return;
+                }
+                
+                if (data.available_times.length === 0) {
+                    appointmentTimeSelect.innerHTML = '<option value="">No available times</option>';
+                    return;
+                }
+                
+                appointmentTimeSelect.innerHTML = '<option value="">Select a time</option>';
+                data.available_times.forEach(time => {
+                    const option = document.createElement('option');
+                    option.value = time;
+                    
+                    // Convert 24h to 12h format for display
+                    const [hours, minutes] = time.split(':');
+                    const hour12 = hours % 12 || 12;
+                    const ampm = hours >= 12 ? 'PM' : 'AM';
+                    option.textContent = `${hour12}:${minutes} ${ampm}`;
+                    
+                    appointmentTimeSelect.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                appointmentTimeSelect.innerHTML = '<option value="">Error loading times</option>';
+            });
+    });
+</script>
+{% endblock %}
+

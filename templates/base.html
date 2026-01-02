@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Qetero Booking{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="{% if current_user.is_authenticated %}{% if current_user.is_admin() %}{{ url_for('admin.dashboard') }}{% else %}{{ url_for('patient.home') }}{% endif %}{% else %}{{ url_for('auth.login') }}{% endif %}">
+                    Qetero Booking
+                </a>
+            </div>
+            <div class="nav-menu">
+                {% if current_user.is_authenticated %}
+                    {% if current_user.is_admin() %}
+                        <a href="{{ url_for('admin.dashboard') }}" class="nav-link">Dashboard</a>
+                        <a href="{{ url_for('admin.doctors') }}" class="nav-link">Doctors</a>
+                        <a href="{{ url_for('admin.patients') }}" class="nav-link">Patients</a>
+                        <a href="{{ url_for('admin.appointments') }}" class="nav-link">Appointments</a>
+                    {% else %}
+                        <a href="{{ url_for('patient.home') }}" class="nav-link">Home</a>
+                        <a href="{{ url_for('patient.doctors') }}" class="nav-link">Doctors</a>
+                        <a href="{{ url_for('patient.appointments') }}" class="nav-link">My Appointments</a>
+                    {% endif %}
+                    <span class="nav-user">{{ current_user.first_name }} {{ current_user.last_name }}</span>
+                    <a href="{{ url_for('auth.logout') }}" class="nav-link nav-link-btn">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('auth.login') }}" class="nav-link">Login</a>
+                    <a href="{{ url_for('auth.register') }}" class="nav-link nav-link-btn">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="flash-message flash-{{ category }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Qetero Booking. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
+

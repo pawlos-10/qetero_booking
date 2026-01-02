@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Patients - Admin - Qetero Booking{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Manage Patients</h1>
+</div>
+
+{% if patients %}
+<div class="patients-table-container">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Registered</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for patient in patients %}
+            <tr>
+                <td>{{ patient.first_name }} {{ patient.last_name }}</td>
+                <td>{{ patient.email }}</td>
+                <td>{{ patient.phone or 'N/A' }}</td>
+                <td>{{ patient.created_at.strftime('%b %d, %Y') if patient.created_at else '' }}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('admin.delete_patient', patient_id=patient.id) }}" 
+                          style="display: inline;" 
+                          onsubmit="return confirm('Are you sure you want to delete this patient? This will also delete all their appointments.');">
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="empty-state">
+    <p>No patients registered yet.</p>
+</div>
+{% endif %}
+{% endblock %}
+

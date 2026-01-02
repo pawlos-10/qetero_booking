@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}{{ action }} Doctor - Admin - Qetero Booking{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <a href="{{ url_for('admin.doctors') }}" class="btn btn-secondary">← Back to Doctors</a>
+    <h1>{{ action }} Doctor</h1>
+</div>
+
+<div class="form-container">
+    <form method="POST" action="{{ url_for('admin.add_doctor') if action == 'Add' else url_for('admin.edit_doctor', doctor_id=doctor.id) }}" class="main-form">
+        <div class="form-group">
+            <label for="first_name">First Name *</label>
+            <input 
+                type="text" 
+                id="first_name" 
+                name="first_name" 
+                value="{{ doctor.first_name if doctor else '' }}"
+                required
+                placeholder="Enter first name"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="last_name">Last Name *</label>
+            <input 
+                type="text" 
+                id="last_name" 
+                name="last_name" 
+                value="{{ doctor.last_name if doctor else '' }}"
+                required
+                placeholder="Enter last name"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email *</label>
+            <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                value="{{ doctor.email if doctor else '' }}"
+                required
+                placeholder="Enter email address"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone</label>
+            <input 
+                type="tel" 
+                id="phone" 
+                name="phone" 
+                value="{{ doctor.phone if doctor else '' }}"
+                placeholder="Enter phone number"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="specialty">Specialty *</label>
+            <input 
+                type="text" 
+                id="specialty" 
+                name="specialty" 
+                value="{{ doctor.specialty if doctor else '' }}"
+                required
+                placeholder="e.g., Cardiology, Pediatrics, etc."
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="bio">Bio</label>
+            <textarea 
+                id="bio" 
+                name="bio" 
+                rows="5"
+                placeholder="Enter doctor's bio or description..."
+            >{{ doctor.bio if doctor else '' }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label class="checkbox-label">
+                <input 
+                    type="checkbox" 
+                    id="is_active" 
+                    name="is_active" 
+                    {% if doctor and doctor.is_active or not doctor %}checked{% endif %}
+                >
+                <span>Active (doctor is available for appointments)</span>
+            </label>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">{{ action }} Doctor</button>
+            <a href="{{ url_for('admin.doctors') }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Doctors - Qetero Booking{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Our Doctors</h1>
+    <p>Choose a doctor to book an appointment</p>
+</div>
+
+{% if doctors %}
+<div class="doctors-grid">
+    {% for doctor in doctors %}
+    <div class="doctor-card">
+        <div class="doctor-info">
+            <h3>Dr. {{ doctor.first_name }} {{ doctor.last_name }}</h3>
+            <p class="doctor-specialty">{{ doctor.specialty }}</p>
+            {% if doctor.bio %}
+            <p class="doctor-bio">{{ doctor.bio[:100] }}{% if doctor.bio|length > 100 %}...{% endif %}</p>
+            {% endif %}
+            <div class="doctor-contact">
+                {% if doctor.email %}
+                <p>📧 {{ doctor.email }}</p>
+                {% endif %}
+                {% if doctor.phone %}
+                <p>📞 {{ doctor.phone }}</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="doctor-actions">
+            <a href="{{ url_for('patient.doctor_detail', doctor_id=doctor.id) }}" class="btn btn-primary">
+                View Details & Book
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <p>No doctors available at the moment.</p>
+</div>
+{% endif %}
+{% endblock %}
+

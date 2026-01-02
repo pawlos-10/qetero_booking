@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Appointments - Admin - Qetero Booking{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Manage Appointments</h1>
+</div>
+
+<div class="filter-tabs">
+    <a href="{{ url_for('admin.appointments', status='all') }}" 
+       class="filter-tab {% if status_filter == 'all' %}active{% endif %}">All</a>
+    <a href="{{ url_for('admin.appointments', status='pending') }}" 
+       class="filter-tab {% if status_filter == 'pending' %}active{% endif %}">Pending</a>
+    <a href="{{ url_for('admin.appointments', status='approved') }}" 
+       class="filter-tab {% if status_filter == 'approved' %}active{% endif %}">Approved</a>
+    <a href="{{ url_for('admin.appointments', status='rejected') }}" 
+       class="filter-tab {% if status_filter == 'rejected' %}active{% endif %}">Rejected</a>
+    <a href="{{ url_for('admin.appointments', status='cancelled') }}" 
+       class="filter-tab {% if status_filter == 'cancelled' %}active{% endif %}">Cancelled</a>
+</div>
+
+{% if appointments %}
+<div class="appointments-table-container">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Patient</th>
+                <th>Doctor</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appointment in appointments %}
+            <tr id="appointment-{{ appointment.id }}">
+                <td>{{ appointment.patient.first_name }} {{ appointment.patient.last_name }}</td>
+                <td>Dr. {{ appointment.doctor.first_name }} {{ appointment.doctor.last_name }}</td>
+                <td>{{ appointment.appointment_date.strftime('%B %d, %Y') if appointment.appointment_date else '' }}</td>
+                <td>{{ appointment.appointment_time.strftime('%I:%M %p') if appointment.appointment_time else '' }}</td>
+                <td>
+                    <span class="status-badge status-{{ appointment.status }}">
+                        {{ appointment.status|title }}
+                    </span>
+                </td>
+                <td>{{ appointment.created_at.strftime('%b %d, %Y') if appointment.created_at else '' }}</td>
+                <td>
+                    {% if appointment.status == 'pending' %}
+                    <form method="POST" action="{{ url_for('admin.approve_appointment', appointment_id=appointment.id) }}" 
+                          style="display: inline;">
+                        <button type="submit" class="btn btn-sm btn-success">Approve</button>
+                    </form>
+                    <form method="POST" action="{{ url_for('admin.reject_appointment', appointment_id=appointment.id) }}" 
+                          style="display: inline;" 
+                          onsubmit="return confirm('Are you sure you want to reject this appointment?');">
+                        <button type="submit" class="btn btn-sm btn-warning">Reject</button>
+                    </form>
+                    {% elif appointment.status == 'approved' %}
+                    <form method="POST" action="{{ url_for('admin.cancel_appointment', appointment_id=appointment.id) }}" 
+                          style="display: inline;" 
+                          onsubmit="return confirm('Are you sure you want to cancel this appointment?');">
+                        <button type="submit" class="btn btn-sm btn-danger">Cancel</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% if appointment.notes %}
+            <tr class="appointment-notes-row">
+                <td colspan="7">
+                    <strong>Notes:</strong> {{ appointment.notes }}
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="empty-state">
+    <p>No appointments found{% if status_filter != 'all' %} with status "{{ status_filter }}"{% endif %}.</p>
+</div>
+{% endif %}
+{% endblock %}
+
