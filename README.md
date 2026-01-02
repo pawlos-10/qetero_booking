@@ -131,17 +131,6 @@ All colors are defined in `:root` CSS variables in `static/css/main.css`.
 
 The system uses SQLite by default (`qetero_booking.db`). The database file is automatically created on first run.
 
-### To migrate to PostgreSQL:
-
-1. Update `config.py`:
-   ```python
-   SQLALCHEMY_DATABASE_URI = 'postgresql://user:password@localhost/qetero_booking'
-   ```
-
-2. Install PostgreSQL adapter:
-   ```bash
-   pip install psycopg2-binary
-   ```
 
 ## Usage Guide
 
